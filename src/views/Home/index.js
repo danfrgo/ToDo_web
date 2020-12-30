@@ -13,25 +13,40 @@ import TaskCard from '../../components/TaskCard';
 function Home() {
     const [filterActived, setFilterActived] = useState('all');
     const [tasks, setTasks] = useState([]); // [] para guardar varias informaçoes
+    const [lateCount, setLateCount] = useState(); // armazenar a quantidade de tarefas em atraso
 
     // funçao para carregar as informaçoes das tarefas da BD, atraves de filtros
     async function loadTasks(){
         await api.get(`/task/filter/${filterActived}/11-11-11-11-11-11`)
         .then(response => {
             setTasks(response.data);
-            console.log(response.data);
+            //console.log(response.data);
         })
+    }
+
+    // quantidade de tarefas em atraso
+    async function lateVerify(){
+            await api.get(`/task/filter/late/11-11-11-11-11-11`)
+            .then(response => {
+                setLateCount(response.data.length);
+            })
+    }
+
+    // para ter o onclick no sino de notificaçoes atrasadas
+    function Notification(){
+        setFilterActived('late');
     }
 
     // carregar tarefas ecra
     useEffect(() => {
         loadTasks(); // carregar todas as tarefas no ecra
+        lateVerify(); // carregar as tarefas em atraso no "sino" de notificação
     }, [filterActived]) // sempre que o estado mudar ->filterActived, tambem recarrega o ecra
 
 
     return (
     <S.Container>
-    <Header/>
+    <Header lateCount={lateCount} clickNotification={Notification}/>
 
     <S.FilterArea>
         <button type="button" onClick={()=> setFilterActived("all")}   >
@@ -56,7 +71,7 @@ function Home() {
     </S.FilterArea>
 
     <S.Title>
-        <h3>TAREFAS</h3>
+        <h3>{filterActived == 'late' ? 'TAREFAS ATRASADAS' : 'TAREFAS'}</h3>
     </S.Title>
 
 
