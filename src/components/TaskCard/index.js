@@ -1,19 +1,23 @@
-import React from 'react';
+import React, {useMemo} from 'react'; // vai auxiliar a separar data e hora de when -> useMemo
+import {format} from 'date-fns'; // para formatar data e hora
 import * as S from './styles';
 
 import iconDefault from '../../assets/default.png';
 
-function TaskCard() {
+function TaskCard({type, title, when}) {
+    const date = useMemo(() => format(new Date(when), 'dd/MM/yyyy' ) ); // converter when (que está em string) para formato de data e hora
+    const hour = useMemo(() => format(new Date(when), 'HH:mm' ) );
+
     return (
 
         <S.Container>
             <S.TopCard>
                 <img src={iconDefault} alt="Icone da Tarefa"/>
-                <h3>Título da Tarefa</h3>
+                <h3>{title}</h3>
             </S.TopCard>
             <S.BottomCard>
-                <strong>17/10/2020</strong>
-                <span>10:00</span>
+                <strong>{date}</strong>
+                <span>{hour}</span>
 
             </S.BottomCard>
         </S.Container>
