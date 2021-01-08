@@ -27,7 +27,7 @@ function Task({match}) {
     const [description, setDescription] = useState();
     const [date, setDate] = useState();
     const [hour, setHour] = useState();
-    const [macaddress, setMacaddress] = useState('11-11-11-11-11-11');
+    // const [macaddress, setMacaddress] = useState('11-11-11-11-11-11');
 
     /*
         // quantidade de tarefas em atraso
@@ -71,7 +71,7 @@ function Task({match}) {
         // se existe id entao atualiza senao regista nova tarefa
         if(match.params.id) {
             await api.put(`/task/${match.params.id}`, {
-                macaddress,
+                macaddress: isConnected,
                 done,
                 type,
                 title,
@@ -83,7 +83,7 @@ function Task({match}) {
               });
         } else {
             await api.post('/task', {
-                macaddress,
+                macaddress: isConnected,
                 type,
                 title,
                 description,

@@ -21,7 +21,7 @@ function Home() {
 
     // funçao para carregar as informaçoes das tarefas da BD, atraves de filtros
     async function loadTasks(){
-        await api.get(`/task/filter/${filterActived}/11-11-11-11-11-11`)
+        await api.get(`/task/filter/${filterActived}/${isConnected}`)
         .then(response => {
             setTasks(response.data);
             //console.log(response.data);

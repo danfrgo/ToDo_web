@@ -14,9 +14,13 @@ function QrCode() {
 
     // para gravar a info do telemovel do user no browser
     async function SaveMac(){
-        await localStorage.setItem('@todo/macaddress', mac);
-        setRedirect(true);
-        window.location.reload();
+        if(!mac)
+            alert('Precisa informar o seu macaddress');
+        else {
+            await localStorage.setItem('@todo/macaddress', mac);
+            setRedirect(true);
+            window.location.reload();
+        }
     }
 
     return (
