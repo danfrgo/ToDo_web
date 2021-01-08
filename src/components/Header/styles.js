@@ -75,4 +75,9 @@ a, button{
     color: #FFF;
 }
 
+button{
+    font-size: 16px;
+
+}
+
 `

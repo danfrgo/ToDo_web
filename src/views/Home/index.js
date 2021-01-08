@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import * as S from './styles';
 
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 
 import api from '../../services/api'; // conexao com BD via API
+import isConnected from '../../utils/isConnected';
 
 // Components
 import Header from '../../components/Header';
@@ -16,6 +17,7 @@ function Home() {
     const [filterActived, setFilterActived] = useState('all');
     const [tasks, setTasks] = useState([]); // [] para guardar varias informaçoes
     // const [lateCount, setLateCount] = useState(); // armazenar a quantidade de tarefas em atraso
+    const [redirect, setRedirect] = useState(false);
 
     // funçao para carregar as informaçoes das tarefas da BD, atraves de filtros
     async function loadTasks(){
@@ -45,11 +47,17 @@ function Home() {
     useEffect(() => {
         loadTasks(); // carregar todas as tarefas no ecra
         // lateVerify(); // carregar as tarefas em atraso no "sino" de notificação
+
+        if(!isConnected)
+            setRedirect(true);
+
+
     }, [filterActived]) // sempre que o estado mudar ->filterActived, tambem recarrega o ecra
 
 
     return (
     <S.Container>
+        {redirect && <Redirect to="/qrcode" />}
     <Header clickNotification={Notification}/>
 
     <S.FilterArea>
@@ -75,7 +83,7 @@ function Home() {
     </S.FilterArea>
 
     <S.Title>
-        <h3>{filterActived == 'late' ? 'TAREFAS ATRASADAS' : 'TAREFAS'}</h3>
+        <h3>{filterActived === 'late' ? 'TAREFAS ATRASADAS' : 'TAREFAS'}</h3>
     </S.Title>
 
 

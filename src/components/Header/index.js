@@ -8,6 +8,8 @@ import bell from '../../assets/bell.png';
 
 import api from '../../services/api';
 
+import isConnected from '../../utils/isConnected';
+
 function Header({ clickNotification}) {
 
     const [lateCount, setLateCount] = useState(); // armazenar a quantidade de tarefas em atraso
@@ -18,6 +20,12 @@ function Header({ clickNotification}) {
         .then(response => {
             setLateCount(response.data.length);
         })
+    }
+
+    // desconectar e remover os dados da sessao iniciada atraves do QrCode
+    async function Logout(){
+        localStorage.removeItem('@todo/macaddress');
+        window.location.reload();
     }
 
     useEffect(() => {
@@ -35,7 +43,12 @@ function Header({ clickNotification}) {
                 <span className="dividir"/>
                 <Link to="/task">NOVA TAREFA</Link>
                 <span className="dividir"/>
-                <Link to="/qrCode">SINCRONIZAR DISPOSITIVO</Link>
+                {!isConnected 
+                    ? 
+                     <Link to="/qrCode">SINCRONIZAR DISPOSITIVO</Link> 
+                    :
+                     <button type="button" onClick={Logout}>Sair</button>
+                }
                 {
                     // se existe lateCount entao aparece o bell de notificaçoes, caso contrario ficará oculto
                     lateCount &&

@@ -6,6 +6,7 @@ import * as S from './styles';
 import {format} from 'date-fns';
 
 import api from '../../services/api'; // conexao com BD via API
+import isConnected from '../../utils/isConnected';
 
 // Components
 import Header from '../../components/Header';
@@ -106,80 +107,82 @@ function Task({match}) {
 
     // carregar tarefas ecra
     useEffect(() => {
+        if(!isConnected)
+            setRedirect(true);
         // lateVerify(); // carregar as tarefas em atraso no "sino" de notificação
         LoadTaskDetails();
     }, []) 
 
     return (
-    <S.Container>
-       {redirect && <Redirect to="/" /> }
-    <Header />
+        <S.Container>
+            {redirect && <Redirect to="/" /> }
+        <Header />
 
 
-    <S.Form>
+        <S.Form>
 
-        <S.TypeIcons>
-            {
-                // para cada icon que encontrar, é gerado um elemento
-                TypeIcons.map((icon, index) => (
-                    index > 0 && 
-                    // o index [0] está como null
-                    <button type="button" onClick={() => setType(index)}>
-                    <img src={icon} alt="Tipo da Tarefa" 
-                    className={type && type !== index && 'inactive'} /> 
-                    </button>
-                ))
-            }
-        </S.TypeIcons>
+            <S.TypeIcons>
+                {
+                    // para cada icon que encontrar, é gerado um elemento
+                    TypeIcons.map((icon, index) => (
+                        index > 0 && 
+                        // o index [0] está como null
+                        <button type="button" onClick={() => setType(index)}>
+                        <img src={icon} alt="Tipo da Tarefa" 
+                        className={type && type !== index && 'inactive'} /> 
+                        </button>
+                    ))
+                }
+            </S.TypeIcons>
 
-        <S.Input>
-            <span>Título</span>
-            <input type="text" placeholder="Título da tarefa..." 
-            onChange={e => setTitle(e.target.value)} value={title} />
-        </S.Input>
+            <S.Input>
+                <span>Título</span>
+                <input type="text" placeholder="Título da tarefa..." 
+                onChange={e => setTitle(e.target.value)} value={title} />
+            </S.Input>
 
-        <S.TextArea>
-            <span>Descrição</span>
-            <textarea rows={5} placeholder="Detalhes da tarefa..." 
-            onChange={e => setDescription(e.target.value)} value={description} />
-        </S.TextArea>
+            <S.TextArea>
+                <span>Descrição</span>
+                <textarea rows={5} placeholder="Detalhes da tarefa..." 
+                onChange={e => setDescription(e.target.value)} value={description} />
+            </S.TextArea>
 
-        <S.Input>
-            <span>Data</span>
-            <input type="date" placeholder="Título da tarefa..." 
-            onChange={e => setDate(e.target.value)} value={date} />
-            <img src={iconCalendar} alt="Calendário"/>
-        </S.Input>
+            <S.Input>
+                <span>Data</span>
+                <input type="date" placeholder="Título da tarefa..." 
+                onChange={e => setDate(e.target.value)} value={date} />
+                <img src={iconCalendar} alt="Calendário"/>
+            </S.Input>
 
-        <S.Input>
-            <span>Hora</span>
-            <input type="time" placeholder="Título da tarefa..." 
-            onChange={e => setHour(e.target.value)} value={hour} />
-            <img src={iconClock} alt="Relógio"/>
-        </S.Input>
+            <S.Input>
+                <span>Hora</span>
+                <input type="time" placeholder="Título da tarefa..." 
+                onChange={e => setHour(e.target.value)} value={hour} />
+                <img src={iconClock} alt="Relógio"/>
+            </S.Input>
 
-        <S.Options>
-            <div>
-                
-                <input type="checkbox" checked={done} onChange={() => setDone(!done)} />
-                <span>CONCLUÍDO</span>
-            </div>
-            { match.params.id && <button type="button" onClick={Remove}>Excluír</button>}
-        </S.Options>
+            <S.Options>
+                <div>
+                    
+                    <input type="checkbox" checked={done} onChange={() => setDone(!done)} />
+                    <span>CONCLUÍDO</span>
+                </div>
+                { match.params.id && <button type="button" onClick={Remove}>Excluír</button>}
+            </S.Options>
 
-        <S.Save>
-            <button type="button" onClick={Save} >GRAVAR</button>
-        </S.Save>
-
-
-
-    </S.Form>
+            <S.Save>
+                <button type="button" onClick={Save} >GRAVAR</button>
+            </S.Save>
 
 
 
+        </S.Form>
 
-    <Footer/>
-    </S.Container>
+
+
+
+        <Footer/>
+        </S.Container>
 
     )
 }
