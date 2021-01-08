@@ -25,6 +25,11 @@ display: flex; //para colocar as tarefas lado a lado
 flex-wrap: wrap; // para quebrar de linha para nao sair fora do ecra
 justify-content: center; // centrar container
 
+a{
+    text-decoration: none; // para tirar o sublinhado da hiperligaçao porexemp
+    color: #000;
+}
+
 
 `
 
@@ -43,6 +48,6 @@ h3{
     background: #FFF;
     padding: 0 20px;
 
-
+}
 
 `

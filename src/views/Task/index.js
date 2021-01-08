@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import * as S from './styles';
 
+import {format} from 'date-fns';
+
 import api from '../../services/api'; // conexao com BD via API
 
 // Components
@@ -11,7 +13,8 @@ import TypeIcons from '../../utils/typeicons';
 import iconCalendar from '../../assets/calendar.png';
 import iconClock from '../../assets/clock.png';
 
-function Task() {
+// match vem com as infos de parametros de navegação (URL) -> obtençao do ID pelo URL
+function Task({match}) {
     const [lateCount, setLateCount] = useState(); // armazenar a quantidade de tarefas em atraso
     const [type, setType] = useState(); // tipo da tarefa
     const [id , setId] = useState(); // guardar ID tarefa
@@ -31,6 +34,19 @@ function Task() {
             })
     }
 
+    // carregar as infos da API
+    async function LoadTaskDetails(){
+        await api.get(`/task/${match.params.id}`)
+        .then(response => { 
+            setType(response.data.type)
+            setTitle(response.data.title)
+            setDescription(response.data.description)
+            setDate( format(new Date(response.data.when), 'yyyy-MM-dd'))
+            setHour( format(new Date(response.data.when), 'HH:mm' ))
+        })
+    }
+
+
     // registar nova tarefa pela API
     async function Save(){
         await api.post('/task', {
@@ -47,6 +63,7 @@ function Task() {
     // carregar tarefas ecra
     useEffect(() => {
         lateVerify(); // carregar as tarefas em atraso no "sino" de notificação
+        LoadTaskDetails();
     }, []) 
 
     return (

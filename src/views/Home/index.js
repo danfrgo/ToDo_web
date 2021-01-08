@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import * as S from './styles';
 
+import {Link} from 'react-router-dom';
+
 import api from '../../services/api'; // conexao com BD via API
 
 // Components
@@ -79,8 +81,11 @@ function Home() {
     <S.Content>
        {
            // map percorre item por item dentro da coleçao
+           // _id porque é dessa forma que o mongoDB armazena o campo
         tasks.map(t => ( 
+            <Link to={`/task/${t._id}`}>
         <TaskCard type={t.type} title={t.title} when={t.when} />
+        </Link>
         ))
        }
     </S.Content>
