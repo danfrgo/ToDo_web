@@ -1,6 +1,8 @@
 import React from 'react';
 import * as S from './styles';
 
+import {Link} from 'react-router-dom'; // para redirecionamento = ao href
+
 import logo from '../../assets/logo.png'
 import bell from '../../assets/bell.png'
 
@@ -12,9 +14,9 @@ function Header({lateCount, clickNotification}) {
                 <img src={logo} alt="Logo" />
             </S.LeftSide>
             <S.RightSide>
-                <a href="#">INÍCIO</a>
+            <Link to="/">INICIO</Link>
                 <span className="dividir"/>
-                <a href="#">NOVA TAREFA</a>
+                <Link to="/task">NOVA TAREFA</Link>
                 <span className="dividir"/>
                 <a href="#">SINCRONIZAR DISPOSITIVO</a>
                 <span className="dividir"/>
