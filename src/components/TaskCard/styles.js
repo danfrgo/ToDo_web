@@ -15,6 +15,7 @@ flex-direction: column; // para ficar a data em baixo da img e titulo tarefa
 margin: 20px; // para que cada cartao de tarefa se afaste a essa distancia
 cursor: pointer;
 transition: all 0.3s ease;
+opacity: ${props => props.done ? 0.5 : 1};
 
 &:hover{
     opacity: 0.5;

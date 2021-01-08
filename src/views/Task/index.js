@@ -42,6 +42,7 @@ function Task({match}) {
         await api.get(`/task/${match.params.id}`)
         .then(response => { 
             setType(response.data.type)
+            setDone(response.data.done)
             setTitle(response.data.title)
             setDescription(response.data.description)
             setDate( format(new Date(response.data.when), 'yyyy-MM-dd'))
@@ -52,6 +53,19 @@ function Task({match}) {
 
     // editar ou registar nova tarefa pela API
     async function Save(){
+        // validação dos dados
+        if(!title)
+            return alert("Precisa de informar o título da tarefa");
+        else if(!description)
+            return alert("Precisa de informar a descrição");
+        else if(!type)
+            return alert("Precisa de informar o tipo da tarefa");
+        else if(!date)
+            return alert("Introduza uma data válida");
+        else if(!hour)
+            return alert("Introduza uma hora válida");
+
+
         // se existe id entao atualiza senao regista nova tarefa
         if(match.params.id) {
             await api.put(`/task/${match.params.id}`, {

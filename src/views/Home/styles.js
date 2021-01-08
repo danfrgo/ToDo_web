@@ -24,6 +24,7 @@ width : 100%;
 display: flex; //para colocar as tarefas lado a lado
 flex-wrap: wrap; // para quebrar de linha para nao sair fora do ecra
 justify-content: center; // centrar container
+margin-bottom: 70px;
 
 a{
     text-decoration: none; // para tirar o sublinhado da hiperligaçao porexemp

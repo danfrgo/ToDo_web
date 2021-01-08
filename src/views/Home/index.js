@@ -84,7 +84,7 @@ function Home() {
            // _id porque é dessa forma que o mongoDB armazena o campo
         tasks.map(t => ( 
             <Link to={`/task/${t._id}`}>
-        <TaskCard type={t.type} title={t.title} when={t.when} />
+        <TaskCard type={t.type} title={t.title} when={t.when} done={t.done} />
         </Link>
         ))
        }

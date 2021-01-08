@@ -6,13 +6,13 @@ import typeIcons from '../../utils/typeicons';
 
 // import iconDefault from '../../assets/default.png';
 
-function TaskCard({type, title, when}) {
+function TaskCard({type, title, when, done}) {
     const date = useMemo(() => format(new Date(when), 'dd/MM/yyyy' ) ); // converter when (que está em string) para formato de data e hora
     const hour = useMemo(() => format(new Date(when), 'HH:mm' ) );
 
     return (
 
-        <S.Container>
+        <S.Container done={done}>
             <S.TopCard>
                 <img src={typeIcons[type]} alt="Icone da Tarefa"/>
                 <h3>{title}</h3>
