@@ -1,14 +1,31 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import * as S from './styles';
 
 import {Link} from 'react-router-dom'; // para redirecionamento = ao href
 
-import logo from '../../assets/logo.png'
-import bell from '../../assets/bell.png'
+import logo from '../../assets/logo.png';
+import bell from '../../assets/bell.png';
 
-function Header({lateCount, clickNotification}) {
+import api from '../../services/api';
+
+function Header({ clickNotification}) {
+
+    const [lateCount, setLateCount] = useState(); // armazenar a quantidade de tarefas em atraso
+
+    // quantidade de tarefas em atraso
+    async function lateVerify(){
+        await api.get(`/task/filter/late/11-11-11-11-11-11`)
+        .then(response => {
+            setLateCount(response.data.length);
+        })
+    }
+
+    useEffect(() => {
+        lateVerify();
+    })
+
+
     return (
-
         <S.Container>
             <S.LeftSide>
                 <img src={logo} alt="Logo" />
@@ -32,7 +49,6 @@ function Header({lateCount, clickNotification}) {
                 }
             </S.RightSide>
         </S.Container>
-
     )
 }
 

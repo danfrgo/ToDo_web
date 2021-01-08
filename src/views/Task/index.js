@@ -18,7 +18,7 @@ import iconClock from '../../assets/clock.png';
 // match vem com as infos de parametros de navegação (URL) -> obtençao do ID pelo URL
 function Task({match}) {
     const [redirect, setRedirect] = useState(false);
-    const [lateCount, setLateCount] = useState(); // armazenar a quantidade de tarefas em atraso
+    // const [lateCount, setLateCount] = useState(); // armazenar a quantidade de tarefas em atraso
     const [type, setType] = useState(); // tipo da tarefa
     const [id , setId] = useState(); // guardar ID tarefa
     const [done, setDone] = useState(false); // tarefa concluida ou nao -> por padrao inicia a false (nao concluida)
@@ -28,14 +28,15 @@ function Task({match}) {
     const [hour, setHour] = useState();
     const [macaddress, setMacaddress] = useState('11-11-11-11-11-11');
 
-
-    // quantidade de tarefas em atraso
-    async function lateVerify(){
-            await api.get(`/task/filter/late/11-11-11-11-11-11`)
-            .then(response => {
-                setLateCount(response.data.length);
-            })
-    }
+    /*
+        // quantidade de tarefas em atraso
+        async function lateVerify(){
+                await api.get(`/task/filter/late/11-11-11-11-11-11`)
+                .then(response => {
+                    setLateCount(response.data.length);
+                })
+        }
+    */
 
     // carregar as infos da API
     async function LoadTaskDetails(){
@@ -105,14 +106,14 @@ function Task({match}) {
 
     // carregar tarefas ecra
     useEffect(() => {
-        lateVerify(); // carregar as tarefas em atraso no "sino" de notificação
+        // lateVerify(); // carregar as tarefas em atraso no "sino" de notificação
         LoadTaskDetails();
     }, []) 
 
     return (
     <S.Container>
        {redirect && <Redirect to="/" /> }
-    <Header lateCount={lateCount} />
+    <Header />
 
 
     <S.Form>
