@@ -1,4 +1,6 @@
 import React, {useState, useEffect} from 'react';
+import {Redirect} from 'react-router-dom';
+
 import * as S from './styles';
 
 import {format} from 'date-fns';
@@ -15,6 +17,7 @@ import iconClock from '../../assets/clock.png';
 
 // match vem com as infos de parametros de navegação (URL) -> obtençao do ID pelo URL
 function Task({match}) {
+    const [redirect, setRedirect] = useState(false);
     const [lateCount, setLateCount] = useState(); // armazenar a quantidade de tarefas em atraso
     const [type, setType] = useState(); // tipo da tarefa
     const [id , setId] = useState(); // guardar ID tarefa
@@ -47,18 +50,34 @@ function Task({match}) {
     }
 
 
-    // registar nova tarefa pela API
+    // editar ou registar nova tarefa pela API
     async function Save(){
-        await api.post('/task', {
-            macaddress,
-            type,
-            title,
-            description,
-            when: `${date}T${hour}:00.000` // para ficar no padrao do mongoDB
-        }).then(() => alert('Tarefa registada com sucesso')
-        ).catch((error) => {
-            alert('Error ' + error); // adicionei aqui
-          });}
+        // se existe id entao atualiza senao regista nova tarefa
+        if(match.params.id) {
+            await api.put(`/task/${match.params.id}`, {
+                macaddress,
+                done,
+                type,
+                title,
+                description,
+                when: `${date}T${hour}:00.000` // para ficar no padrao do mongoDB
+            }).then(() => setRedirect(true)
+            ).catch((error) => {
+                alert('Erro ' + error); // adicionei aqui
+              });
+        } else {
+            await api.post('/task', {
+                macaddress,
+                type,
+                title,
+                description,
+                when: `${date}T${hour}:00.000` // para ficar no padrao do mongoDB
+            }).then(() => setRedirect(true)
+            ).catch((error) => {
+                alert('Error ' + error); // adicionei aqui
+              });
+          }
+        }
 
     // carregar tarefas ecra
     useEffect(() => {
@@ -68,6 +87,7 @@ function Task({match}) {
 
     return (
     <S.Container>
+       {redirect && <Redirect to="/" /> }
     <Header lateCount={lateCount} />
 
 
