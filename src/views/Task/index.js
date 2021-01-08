@@ -93,6 +93,16 @@ function Task({match}) {
           }
         }
 
+
+        // remover tarefas
+        async function Remove(){
+            const res = window.confirm('Deseja realmente remover a tarefa?')
+            if(res == true ){
+              api.delete(`/task/${match.params.id}`)
+              .then( () => setRedirect(true));                     
+            }
+        }
+
     // carregar tarefas ecra
     useEffect(() => {
         lateVerify(); // carregar as tarefas em atraso no "sino" de notificação
@@ -153,13 +163,11 @@ function Task({match}) {
                 <input type="checkbox" checked={done} onChange={() => setDone(!done)} />
                 <span>CONCLUÍDO</span>
             </div>
-            <button type="button">Excluír</button>
+            { match.params.id && <button type="button" onClick={Remove}>Excluír</button>}
         </S.Options>
 
         <S.Save>
             <button type="button" onClick={Save} >GRAVAR</button>
-    
-    
         </S.Save>
 
 
