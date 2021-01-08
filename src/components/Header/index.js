@@ -19,11 +19,17 @@ function Header({lateCount, clickNotification}) {
                 <Link to="/task">NOVA TAREFA</Link>
                 <span className="dividir"/>
                 <Link to="/qrCode">SINCRONIZAR DISPOSITIVO</Link>
-                <span className="dividir"/>
-                <button onClick={clickNotification} id="notification">
-                    <img src={bell} alt="Notificação"/>
-                    <span>{lateCount}</span>
-                </button>
+                {
+                    // se existe lateCount entao aparece o bell de notificaçoes, caso contrario ficará oculto
+                    lateCount &&
+                    <>
+                        <span className="dividir"/>
+                        <button onClick={clickNotification} id="notification">
+                            <img src={bell} alt="Notificação"/>
+                            <span>{lateCount}</span>
+                        </button>
+                    </>
+                }
             </S.RightSide>
         </S.Container>
 
